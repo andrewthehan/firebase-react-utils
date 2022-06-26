@@ -1,6 +1,6 @@
 {
   "name": "firebase-react-utils",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Firebase react utility functions.",
   "author": "Andrew Han",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "@babel/core": "^7.11.6"
   },
   "peerDependencies": {
-    "firebase": "^9.6.6",
+    "firebase": "^9.8.4",
     "react": "^16.13.1"
   },
   "babel": {

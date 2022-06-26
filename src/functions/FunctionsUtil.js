@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import "firebase/functions";
 
 export function useLocalFunctionEmulator() {
   firebase.functions().useFunctionsEmulator("http://localhost:5001");

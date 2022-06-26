@@ -1,7 +1,8 @@
-import firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import "firebase/auth";
 
 export function initialize(firebaseConfig) {
-  return firebase.initializeApp(firebaseConfig);
+  return initializeApp(firebaseConfig);
 }
 
 export function onUserChange(callback) {
