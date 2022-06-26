@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import "firebase/database";
 import { isAnyNull } from "../Utils";
 
 export function getDatabase() {
