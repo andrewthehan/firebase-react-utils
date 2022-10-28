@@ -1,27 +1,34 @@
 import { initializeApp } from "firebase/app";
-import "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged as fOnAuthStateChanged,
+  signInAnonymously as fSignInAnonymously,
+  signInWithPopup as fSignInWithPopup,
+  signOut as fSignOut,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 export function initialize(firebaseConfig) {
   return initializeApp(firebaseConfig);
 }
 
 export function onUserChange(callback) {
-  return firebase.auth().onAuthStateChanged(callback);
+  return fOnAuthStateChanged(getAuth(), callback);
 }
 
 export function getCurrentUser() {
-  return firebase.auth().currentUser;
+  return getAuth().currentUser;
 }
 
 export async function signInAnonymously() {
-  return await firebase.auth().signInAnonymously();
+  return await fSignInAnonymously(getAuth());
 }
 
 export async function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  return await firebase.auth().signInWithPopup(provider);
+  const provider = new GoogleAuthProvider();
+  return await fSignInWithPopup(getAuth(), provider);
 }
 
 export async function signOut() {
-  return await firebase.auth().signOut();
+  return await fSignOut(getAuth());
 }

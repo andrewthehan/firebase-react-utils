@@ -1,13 +1,13 @@
 {
   "name": "firebase-react-utils",
-  "version": "0.1.11",
+  "version": "0.2.6",
   "description": "Firebase react utility functions.",
   "author": "Andrew Han",
   "license": "MIT",
-  "main": "lib/",
+  "main": "build/index.js",
   "scripts": {
-    "build": "npx babel src -d lib",
-    "clean": "rm -r ./build"
+    "build": "npx babel src -d build/",
+    "clean": "rm -rf ./build"
   },
   "dependencies": {
     "@babel/preset-env": "^7.11.5",
@@ -19,8 +19,8 @@
     "@babel/core": "^7.11.6"
   },
   "peerDependencies": {
-    "firebase": "^9.8.4",
-    "react": "^16.13.1"
+    "firebase": "^9.6.6",
+    "react": "^18.2.0"
   },
   "babel": {
     "presets": [

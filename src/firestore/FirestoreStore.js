@@ -1,7 +1,8 @@
 import { isAnyNull } from "../Utils";
+import { getFirestore } from "firebase/firestore";
 
 export function getDatabase(app) {
-  return app.firestore();
+  return getFirestore(app);
 }
 
 export function isValid(ids) {

@@ -1,8 +1,13 @@
-import "firebase/database";
 import { isAnyNull } from "../Utils";
+import {
+  getDatabase as firebaseGetDatabase,
+  ref,
+  get,
+  onValue,
+} from "firebase/database";
 
-export function getDatabase() {
-  return firebase.database();
+export function getDatabase(app) {
+  return firebaseGetDatabase(app);
 }
 
 export function isValid(ids) {
@@ -17,24 +22,21 @@ export function checkIsValid(ids) {
 
 export function getRef(database, ids) {
   checkIsValid(ids);
-  return database.ref(ids.join("/"));
+  return ref(database, ids.join("/"));
 }
 
 export function registerListener(database, ids, callback) {
   const ref = getRef(database, ids);
   const f = (snapshot) => callback(snapshot.val());
-  ref.on("value", f);
-  return () => {
-    ref.off("value", f);
-  };
+  return onValue(ref, f);
 }
 
 export async function exists(database, ids) {
-  return (await getRef(database, ids).once("value")).exists();
+  return (await get(getRef(database, ids))).exists();
 }
 
 export async function getData(database, ids) {
-  const snapshot = await getRef(database, ids).once("value");
+  const snapshot = await get(getRef(database, ids));
   return snapshot.val();
 }
 
