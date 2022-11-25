@@ -5,6 +5,7 @@ import {
   signInAnonymously as fSignInAnonymously,
   signInWithPopup as fSignInWithPopup,
   signOut as fSignOut,
+  deleteUser as fDeleteUser,
   GoogleAuthProvider,
 } from "firebase/auth";
 
@@ -31,4 +32,9 @@ export async function signInWithGoogle() {
 
 export async function signOut() {
   return await fSignOut(getAuth());
+}
+
+export async function deleteCurrentUser() {
+  const user = getCurrentUser();
+  await fDeleteUser(user);
 }
