@@ -1,5 +1,5 @@
 import { isAnyNull } from "../Utils";
-import { getFirestore } from "firebase/firestore";
+import { collection, doc, getFirestore, onSnapshot } from "firebase/firestore";
 
 export function getDatabase(app) {
   return getFirestore(app);
@@ -37,13 +37,13 @@ export function getRef(database, ids) {
   checkIsValid(ids);
 
   return ids.reduce(
-    (ref, id, i) => (i % 2 === 0 ? ref.collection(id) : ref.doc(id)),
+    (ref, id, i) => (i % 2 === 0 ? collection(ref, id) : doc(ref, id)),
     database
   );
 }
 
 export function registerListener(database, ids, callback) {
-  return getRef(database, ids).onSnapshot(
+  return onSnapshot(getRef(database, ids),
     isDoc(ids)
       ? (d) => callback({ id: d.id, ...d.data() })
       : (c) => callback(c.docs.map((d) => ({ id: d.id, ...d.data() })))
