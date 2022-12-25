@@ -45,9 +45,9 @@ export async function deleteCurrentUser(): Promise<void> {
   return await fDeleteUser(user);
 }
 
-export function useCurrentUser(): [boolean, User | null] {
+export function useCurrentUser(): [boolean, User | null | undefined] {
   const isMounted = useIsMounted();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>();
 
   // undefined == not loaded
   // null == loaded but no auth
