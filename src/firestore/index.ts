@@ -47,7 +47,7 @@ export function registerDocListener<T>(
   callback: DocCallback<T>
 ) {
   return onSnapshot(ref, (d: DocumentSnapshot<T>) =>
-    callback({ id: d.id, ...d.data() } as WithId<T>)
+    callback(d.exists() ? ({ id: d.id, ...d.data() } as WithId<T>) : undefined)
   );
 }
 

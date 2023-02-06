@@ -1,12 +1,12 @@
 {
   "name": "firebase-react-utils",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Firebase react utility functions.",
   "author": "Andrew Han",
   "license": "MIT",
   "main": "build/index.js",
   "scripts": {
-    "build": "npx babel src -x \".ts\" --source-maps --out-dir build && tsc --emitDeclarationOnly",
+    "build": "babel src -x \".ts\" --source-maps --out-dir build && tsc --emitDeclarationOnly",
     "prepare": "npm run build",
     "clean": "rm -rf ./build"
   },
@@ -17,6 +17,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@types/react": "^18.0.26",
+    "babel-cli": "^6.26.0",
     "core-js": "^3.21.1",
     "typescript": "^4.9.4"
   },
