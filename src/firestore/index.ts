@@ -86,17 +86,21 @@ export function useDocRef<T>(
   database: Firestore,
   ids: Ids
 ): DocumentReference<T> | null {
-  const [ref, setRef] = useState<DocumentReference<T> | null>(null);
-
-  useEffect(() => {
+  function f(): DocumentReference<T> | null {
     if (!isValid(ids)) {
-      setRef(null);
-      return;
+      return null;
     }
 
-    setRef(docRef<T>(database, ids));
+    return docRef<T>(database, ids);
+  }
+
+  const [ref, setRef] = useState<DocumentReference<T> | null>(f);
+
+  useEffect(
+    () => setRef(f()),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [database, ...ids]);
+    [database, ...ids]
+  );
 
   return ref;
 }
@@ -105,70 +109,84 @@ export function useCollectionRef<T>(
   database: Firestore,
   ids: Ids
 ): CollectionReference<T> | null {
-  const [ref, setRef] = useState<CollectionReference<T> | null>(null);
-
-  useEffect(() => {
+  function f(): CollectionReference<T> | null {
     if (!isValid(ids)) {
-      setRef(null);
-      return;
+      return null;
     }
 
-    setRef(collectionRef(database, ids));
+    return collectionRef(database, ids);
+  }
+
+  const [ref, setRef] = useState<CollectionReference<T> | null>(f);
+
+  useEffect(
+    () => setRef(f()),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [database, ...ids]);
+    [database, ...ids]
+  );
 
   return ref;
 }
 
 export function useDocData<T>(
   ref: DocumentReference<T> | null
-): WithId<T> | null {
+): [WithId<T> | null, boolean] {
   const isMounted = useIsMounted();
+  const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState<WithId<T> | null>(null);
 
   useEffect(() => {
     if (ref == null || !isMounted) {
+      setLoaded(false);
       setData(null);
       return;
     }
 
-    return registerDocListener(ref, (data) => {
-      if (data === undefined) {
+    return registerDocListener(ref, (newData) => {
+      if (newData === undefined) {
+        setLoaded(false);
         setData(null);
       } else {
-        setData(data);
+        setData(newData);
+        setLoaded(true);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref?.path, isMounted]);
 
-  return data;
+  return [data, loaded];
 }
 
 export function useCollectionData<T>(
   ref: CollectionReference<T> | null
-): WithId<T>[] | null {
+): [WithId<T>[], boolean] {
   return useQueryData(ref);
 }
 
-export function useQueryData<T>(query: Query<T> | null): WithId<T>[] | null {
+export function useQueryData<T>(
+  query: Query<T> | null
+): [WithId<T>[], boolean] {
   const isMounted = useIsMounted();
-  const [data, setData] = useState<WithId<T>[] | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [data, setData] = useState<WithId<T>[]>([]);
 
   useEffect(() => {
     if (query == null || !isMounted) {
-      setData(null);
+      setLoaded(false);
+      setData([]);
       return;
     }
 
-    return registerQueryListener(query, (data) => {
-      if (data === undefined) {
-        setData(null);
+    return registerQueryListener(query, (newData) => {
+      if (newData === undefined) {
+        setLoaded(false);
+        setData([]);
       } else {
-        setData(data);
+        setData(newData);
+        setLoaded(true);
       }
     });
   }, [query, isMounted]);
 
-  return data;
+  return [data, loaded];
 }

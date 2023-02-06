@@ -45,7 +45,7 @@ export async function deleteCurrentUser(): Promise<void> {
   return await fDeleteUser(user);
 }
 
-export function useCurrentUser(): [boolean, User | null | undefined] {
+export function useCurrentUser(): [User | null | undefined, boolean] {
   const isMounted = useIsMounted();
   const [currentUser, setCurrentUser] = useState<User | null>();
 
@@ -64,11 +64,11 @@ export function useCurrentUser(): [boolean, User | null | undefined] {
     });
   });
 
-  return [loaded, currentUser];
+  return [currentUser, loaded];
 }
 
 export function useIsOwner(userId: string): boolean {
-  const [loaded, currentUser] = useCurrentUser();
+  const [currentUser, loaded] = useCurrentUser();
 
   const [isOwner, setIsOwner] = useState(false);
 
