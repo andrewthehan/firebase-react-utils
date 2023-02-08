@@ -144,12 +144,11 @@ export function useDocData<T>(
 
     return registerDocListener(ref, (newData) => {
       if (newData === undefined) {
-        setLoaded(false);
         setData(null);
       } else {
         setData(newData);
-        setLoaded(true);
       }
+      setLoaded(true);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref?.path, isMounted]);
@@ -179,12 +178,11 @@ export function useQueryData<T>(
 
     return registerQueryListener(query, (newData) => {
       if (newData === undefined) {
-        setLoaded(false);
         setData([]);
       } else {
         setData(newData);
-        setLoaded(true);
       }
+      setLoaded(true);
     });
   }, [query, isMounted]);
 
