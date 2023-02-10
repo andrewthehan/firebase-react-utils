@@ -13,12 +13,12 @@ import {
 import { useEffect, useState } from "react";
 import { isAnyNull, useIsMounted } from "../utils";
 
-type Ids = (string | undefined)[];
+export type Ids = (string | undefined)[];
 
-type WithId<T> = T & { id: string };
+export type WithId<T> = T & { id: string };
 
-type DocCallback<T> = (doc: WithId<T> | undefined) => void;
-type QueryCallback<T> = (docs: WithId<T>[] | undefined) => void;
+export type DocCallback<T> = (doc: WithId<T> | undefined) => void;
+export type QueryCallback<T> = (docs: WithId<T>[] | undefined) => void;
 
 export function isDoc(ids: Ids): boolean {
   return ids.length % 2 === 0;
